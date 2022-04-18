@@ -10,7 +10,7 @@
   max-width: 50%;
 }
 
-.column img {
+.column_img {
   margin-top: 0px;
   vertical-align: middle;
 }
@@ -75,10 +75,6 @@
   text-align: center;
 }
 
-.column:hover .img__description {
-  visibility: visible;
-  opacity: 1;
-}
 
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
