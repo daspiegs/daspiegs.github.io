@@ -16,9 +16,19 @@ from matplotlib.collections import PatchCollection
 #import base64
 
 
-nbands=int(input("enter number of bands--max 9 ")) 
-spacing=int(input("enter spacing--rows of dots between ")) 
-color_scheme_i=int(input("color scheme number ")) 
+#nbands=int(input("enter number of bands--max 9 ")) 
+#spacing=int(input("enter spacing--rows of dots between ")) 
+#color_scheme_i=int(input("color scheme number ")) 
+
+import cgi
+import cgitb #found this but isn't used?
+
+form = cgi.FieldStorage()
+nbands=int(form.getvalue('number of bands')) 
+spacing=int(form.getvalue('band spacing'))  
+color_scheme_i=int(form.getvalue('color scheme #'))  
+print((nbands, spacing, color_scheme_i))
+
 
 cs1=['red','orange','yellow','lawngreen','cyan','dodgerblue','blue','blueviolet','magenta']
 cs2=['springgreen','turquoise','teal','lawngreen','aqua','darkturquoise','deepskyblue','cornflowerblue','royalblue']
