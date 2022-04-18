@@ -42,8 +42,12 @@
     <form action="/cgi-bin/makeimage.py" method="get">
       <div class="w3-section">
         <label>number of bands</label>
-        <input class="w3-input w3-border" type="text" required name="number of bands">
+        <div class="slidecontainer">
+        <input type="range" min="1" max="9" value="5" class="slider" id="bRange">
+        <p>Value: <span id="demobn"></span></p>
+        </div>
       </div>
+      
       <div class="w3-section">
         <label>band spacing</label>
         <input class="w3-input w3-border" type="text" required name="band spacing">
@@ -134,6 +138,16 @@ function showDivs(n) {
   x[slideIndex-1].style.display = "block";
 }
   </script>
+  
+<script>
+var slider = document.getElementById("bRange");
+var output = document.getElementById("demobn");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>
 
   
 <!-- End page content -->
