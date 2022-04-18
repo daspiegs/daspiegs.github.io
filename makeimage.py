@@ -6,16 +6,27 @@ EDITED FOR EDUCATIONAL PURPOSES SUNDAY, APRIL 17, 2022
 """
 
 # create example image
-from flask import Flask, render_template, request
 import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.patches as pat
 from matplotlib.collections import PatchCollection
 from mpld3 import plugins, utils
 
-#UPLOAD_FOLDER='bflow'
-@app
+from flask_ngrok import run_with_ngrok
+from flask import Flask, render_template, request, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField, FileField, BooleanField, SubmitField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from werkzeug.utils import secure_filename
+from wtforms.validators import DataRequired
 
+#UPLOAD_FOLDER='bflow'
+app = Flask(_name_,template_folder='',static_folder='')
+app.config['SECRET_KEY'] = 'you-will-never-guess'
+
+@app.route("/")
+def index():
+  return render_template('bflow.html')
 
 #from io import BytesIO
 #import base64
@@ -24,22 +35,17 @@ from mpld3 import plugins, utils
 #nbands=int(input("enter number of bands--max 9 ")) 
 #spacing=int(input("enter spacing--rows of dots between ")) 
 #color_scheme_i=int(input("color scheme number ")) 
-
-import cgi
-import cgitb #found this but isn't used?
-
-form = cgi.FieldStorage()
-nbands=int(form.getvalue('number of bands')) 
-spacing=int(form.getvalue('band spacing'))  
-color_scheme_i=int(form.getvalue('color scheme #'))  
-print((nbands, spacing, color_scheme_i))
-
+class SimForm(FlaskForm):
+    nbands = IntegerField('Your Name', validators=[DataRequired()])
+    color_scheme_i = IntegerField('color scheme #', validators=[DataRequired()]))
+    spacing = IntegerField('color scheme #', validators=[DataRequired()]))
+    submit = SubmitField('Generate Image')
 
 cs1=['red','orange','yellow','lawngreen','cyan','dodgerblue','blue','blueviolet','magenta']
 cs2=['springgreen','turquoise','teal','lawngreen','aqua','darkturquoise','deepskyblue','cornflowerblue','royalblue']
 cs3=['black','dimgray','gray','slategray','silver','whitesmoke','snow','lightsteelblue','powderblue']
 
-colorschemes=[cs1,cs2]
+colorschemes=[cs1,cs2,cs3]
 scheme_choice=colorschemes[color_scheme_i-1]
 
 n=40
