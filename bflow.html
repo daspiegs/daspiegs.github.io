@@ -82,48 +82,44 @@
     </form><br>
   </div>
   
-<div id="myDiv"></div>
-  <script>
-  var frames = [
-  {name: 'sine', data: [{x: [], y: []}]},
-  {name: 'cosine', data: [{x: [], y: []}]},
-  {name: 'circle', data: [{x: [], y: []}]},
-];
+ <style>
+.mySlides {display:none;}
+</style>
+  
+<div class="w3-content w3-display-container">
+  <img class="mySlides" src="iteration-0.png" style="width:100%">
+  <img class="mySlides" src="iteration-1.png" style="width:100%">
+  <img class="mySlides" src="iteration-2.png" style="width:100%">
+  <img class="mySlides" src="iteration-3.png" style="width:100%">
+  <img class="mySlides" src="iteration-4.png" style="width:100%">
+  <img class="mySlides" src="iteration-5.png" style="width:100%">
+  <img class="mySlides" src="iteration-6.png" style="width:100%">
+  <img class="mySlides" src="iteration-7.png" style="width:100%">
+  <img class="mySlides" src="iteration-8.png" style="width:100%">
+  <img class="mySlides" src="iteration-9.png" style="width:100%">
 
-var n = 100;
-for (var i = 0; i < n; i++) {
-  var t = i / (n - 1) * 2 - 1;
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+  
+<script>
+ var slideIndex = 1;
+showDivs(slideIndex);
 
-  // A sine wave:
-  frames[0].data[0].x[i] = t * Math.PI;
-  frames[0].data[0].y[i] = Math.sin(t * Math.PI);
-
-  // A cosine wave:
-  frames[1].data[0].x[i] = t * Math.PI;
-  frames[1].data[0].y[i] = Math.cos(t * Math.PI);
-
-  // A circle:
-  frames[2].data[0].x[i] = Math.sin(t * Math.PI);
-  frames[2].data[0].y[i] = Math.cos(t * Math.PI);
+function plusDivs(n) {
+  showDivs(slideIndex += n);
 }
 
-Plotly.newPlot('myDiv', [{
-  x: frames[0].data[0].x,
-  y: frames[0].data[0].y,
-  line: {simplify: false},
-}], {
-  xaxis: {range: [-Math.PI, Math.PI]},
-  yaxis: {range: [-1.2, 1.2]},
-  updatemenus: [{
-    buttons: [
-      {method: 'animate', args: [['sine']], label: 'sine'},
-      {method: 'animate', args: [['cosine']], label: 'cosine'},
-      {method: 'animate', args: [['circle']], label: 'circle'}
-    ]
-  }]
-}).then(function() {
-  Plotly.addFrames('myDiv', frames);
-});
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length} ;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
   </script>
 
   
