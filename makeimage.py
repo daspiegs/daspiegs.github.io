@@ -6,6 +6,7 @@ EDITED FOR EDUCATIONAL PURPOSES SUNDAY, APRIL 17, 2022
 """
 
 # create example image
+import os
 import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.patches as pat
@@ -15,34 +16,25 @@ from mpld3 import plugins, utils
 from flask_ngrok import run_with_ngrok
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, FileField, BooleanField, SubmitField
+from wtforms import StringField, FileField, BooleanField, SubmitField, IntegerField, FloatField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from werkzeug.utils import secure_filename
 from wtforms.validators import DataRequired
 
-#UPLOAD_FOLDER='bflow'
-
-
-
-#from io import BytesIO
-#import base64
-
-
-#nbands=int(input("enter number of bands--max 9 ")) 
-#spacing=int(input("enter spacing--rows of dots between ")) 
-#color_scheme_i=int(input("color scheme number ")) 
 class SimForm(FlaskForm):
-    nbands = IntegerField('Your Name', validators=[DataRequired()])
+    nbands = IntegerField('number of bands', validators=[DataRequired()])
+    spacing = IntegerField('spacing', validators=[DataRequired()]))
     color_scheme_i = IntegerField('color scheme #', validators=[DataRequired()]))
-    spacing = IntegerField('color scheme #', validators=[DataRequired()]))
     submit = SubmitField('Generate Image')
     
-app = Flask(_name_,template_folder='',static_folder='')
-
+app = Flask(_name_,template_folder='',static_folder='') #might need to define this and move stuff to a folder
 app.config['SECRET_KEY'] = 'you-will-never-guess'
+run_with_ngrok(app)
+
 @app.route("/")
 def index():
     return render_template('bflow.html')
+
 @app.route("/",methods=['POST', 'GET'])
 def get_info():
     nbands = request.form['demobn']
