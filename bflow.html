@@ -39,9 +39,10 @@
     <hr>
     <p>Enter appropriate values</p>
   
-    <form action="/cgi-bin/makeimage.py" method="get">
+  
+    <form method="POST" action="" enctype="multipart/form-data" accept=".jpg,.jpeg,.png">
       <div class="w3-section">
-        <label>number of bands</label>
+        <label for="bRange">number of bands:</label><br>
         <div class="slidecontainer">
         <input type="range" min="1" max="9" value="5" class="slider" id="bRange">
         <p>Value: <span id="demobn"></span></p>
@@ -69,7 +70,7 @@
     <hr>
     <p> Instructions</p>
 
-    <form action="/action_page.php" target="_blank">
+    <form method="POST" action="" enctype="multipart/form-data" accept=".jpg,.jpeg,.png">
       <div class="w3-section">
         <label>Kick Amplitude</label>
         <div class="slidecontainer">
@@ -92,6 +93,40 @@
  <style>
 .mySlides {display:none;}
 </style>
+  
+<form method="POST" action="" enctype="multipart/form-data" accept=".jpg,.jpeg,.png">
+      <label for="your_name">Your name:</label><br>
+      <input type="text" id="your_name" name="your_name"><br>
+      <label for="partner_name">Your partner's name</label><br>
+      <input type="text" id="partner_name" name="partner_name">
+      <p><input type="file" name="your_pic"></p>
+      <p><input type="file" name="partner_pic"></p>
+
+      <div id="gender1">
+      <p> What voice should we use for you? </p>
+      <input type="radio" id="male" name="gender1" value="male">
+      <label for="male">Male</label><br>
+      <input type="radio" id="female" name="gender1" value="female">
+      <label for="female">Female</label><br>
+      </div>
+
+      <div id="gender2">
+      <p> What voice should we use for your partner? </p>
+      <input type="radio" id="male" name="gender2" value="male">
+      <label for="male">Male</label><br>
+      <input type="radio" id="female" name="gender2" value="female">
+      <label for="spark">Female</label><br>
+      </div>
+
+      <div id="breakup_type">
+      <p> Why do you want to break up with your partner? </p>
+      <input type="radio" id="paths" name="breakup_type" value="paths">
+      <label for="paths">We're on different life paths</label><br>
+      <input type="radio" id="spark" name="breakup_type" value="spark">
+      <label for="spark">There's no more spark</label><br>
+      <p><input type="submit" value="Submit"></p>
+      </div>
+  </form>
   
 <div class="w3-content w3-display-container">
   <img class="mySlides" src="iteration-0.png" style="width:100%">
