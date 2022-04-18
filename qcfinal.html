@@ -5,6 +5,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+  </style>
 </head>
 <body>
 
@@ -40,11 +58,19 @@
 </div>
 </div>-->
 <!-- Page content -->
-<div class="w3-content w3-padding-large w3-margin-top" id="portfolio">
+<div class="row">
+  <div class="column">
+    <img src="chaos.png" alt="chaos" class="w3-image column img">
+  </div>
+  <div class="column">
+  <img src="fire.png" alt="fire" class="w3-image column img">
+  </div>
+</div>
 
-  <!-- Images (Portfolio) -->
-  <img src="chaos.png" alt="chaos" class="w3-image w3-margin-top" width="1000" height="500">
-  <img src="fire.png" alt="fire" class="w3-image w3-margin-top" width="1000" height="500">
+
+  <!-- Images (Portfolio) 
+  
+  <img src="fire.png" alt="fire" class="w3-image w3-half" width="1000" height="500">-->
 
   <!-- Contact 
   <div class="w3-light-grey w3-padding-large w3-padding-32 w3-margin-top" id="contact">
