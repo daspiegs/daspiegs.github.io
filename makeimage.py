@@ -35,7 +35,7 @@ run_with_ngrok(app)
 def index():
     return render_template('bflow.html')
 
-@app.route("/",methods=['POST', 'GET'])
+@app.route("/",methods=['GET','POST'])
 def get_info():
     nbands = request.form['demobn']
     color_scheme_i = request.form['color_scheme_i']
@@ -49,7 +49,6 @@ def get_info():
 
     n=40
     x,y=np.meshgrid(np.arange(n)+1,np.arange(n)+1)
-
 
     f=plt.figure(figsize=(12,12))
     plt.plot(x,y,'ko')
