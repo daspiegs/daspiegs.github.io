@@ -26,13 +26,15 @@
   bottom: 0;
   left: 0;
   right: 0;
+  height: 100%;
+  width: 100%;
   background: rgba(0,0,0, 0.5);
   color: #fff;
   visibility: hidden;
   opacity: 0;
 
   /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
+  transition: .5s ease;
 }
 
 .column:hover .img__description {
