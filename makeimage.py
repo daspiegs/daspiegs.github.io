@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.patches as pat
 from matplotlib.collections import PatchCollection
+from mpld3 import plugins, utils
 
 #from io import BytesIO
 #import base64
@@ -61,4 +62,8 @@ for i in range(nbands):
     ax.add_patch(pat.Rectangle((0,n/2+nbands/2-i*spacing),n+1,1,facecolor=color)) 
     
 f.savefig("init_image.png", dpi=160, facecolor='w',bbox_inches="tight", pad_inches=0)
-plt.show()
+
+html_str = mpld3.fig_to_html(f)
+Html_file= open("makeimage.html","w")
+Html_file.write(html_str)
+Html_file.close()
