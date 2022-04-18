@@ -43,7 +43,7 @@ app.config['SECRET_KEY'] = 'you-will-never-guess'
 @app.route("/")
 def index():
   return render_template('bflow.html')
-@app.rout("/",methods=["POST"])
+@app.route("/",methods=['POST', 'GET'])
 def get_info():
   nbands = request.form['demobn']
   color_scheme_i = request.form['color_scheme_i']
