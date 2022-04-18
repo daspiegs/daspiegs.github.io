@@ -69,16 +69,19 @@
       <div class="w3-section">
         <label>Kick Amplitude</label>
         <input class="w3-input w3-border" type="text" required name="Kick Amplitude">
+        <div class="slidecontainer">
+        <input type="range" min="0.01" max="0.1" value="0.025" class="slider" id="myRange">
+        <p>Value: <span id="demo"></span></p>
+        </div>
+        
       </div>
       <div class="w3-section">
         <label>Drift Period</label>
+        
         <input class="w3-input w3-border" type="text" required name="Drift Period">
       </div>
-      <div class="w3-section">
-        <label>Message</label>
-        <input class="w3-input w3-border" required name="Message">
-      </div>
-      <button type="submit" class="w3-button w3-block w3-dark-grey">Send</button>
+      
+      <button type="submit" class="w3-button w3-block w3-dark-grey">kick it and drift it!</button>
     </form><br>
   </div>
   
@@ -101,6 +104,16 @@
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
+  
+ <script>
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>
   
 <script>
  var slideIndex = 1;
