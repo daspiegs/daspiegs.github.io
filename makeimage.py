@@ -6,11 +6,15 @@ EDITED FOR EDUCATIONAL PURPOSES SUNDAY, APRIL 17, 2022
 """
 
 # create example image
-
+#from flask import Flask, render_template, request
 import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.patches as pat
 from matplotlib.collections import PatchCollection
+
+#from io import BytesIO
+#import base64
+
 
 nbands=int(input("enter number of bands--max 9 ")) 
 spacing=int(input("enter spacing--rows of dots between ")) 
