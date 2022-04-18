@@ -56,10 +56,10 @@
   width: 100%;
   opacity: 0;
   transition: .5s ease;
-  background-color: #008CBA;
+  background-color: rgba(0,0,0, 0.5);
 }
 
-.container:hover .overlay {
+.column:hover .overlay {
   opacity: 1;
 }
 
