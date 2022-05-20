@@ -158,7 +158,7 @@ var st4 = function( p )
                 }
                 
                 //UNCOMMENT TO SEE ANGLE ARCS FOR LOV RAYS
-                //p.arc(xend, yend, arcRadius, arcRadius, p.PI/2, p.PI/2+theta);//get angle 
+                p.arc(xend, yend, arcRadius, arcRadius, p.PI/2, p.PI/2+theta);//get angle 
             }
             p.stroke(c);
             p.strokeWeight(3); 
