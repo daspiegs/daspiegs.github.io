@@ -1,5 +1,3 @@
-//Number 2
-
 //NUMBER 2
 var st4 = function( p ) 
 {
@@ -38,6 +36,7 @@ var st4 = function( p )
         valueDisplayer = p.createP()
         valueDisplayer.parent("sketchHolderNum2");
 
+        //UNCOMMENT FOR SECOND SLIDER
         // eyeSlider = p.createSlider(0, maxRooms-1, maxRooms-2);
         // eyeSlider.parent("sketchHolderNum2");
         // eyeSlider.style('width', '800px');
@@ -68,10 +67,13 @@ var st4 = function( p )
         //rooms
         var numRooms = slider.value();
         let refRooms = numRooms-1; 
-        //let gazeNum = eyeSlider.value(); 
         valueDisplayer.html('number of room reflections '+refRooms);
-        //valueDisplayer2.html('looking at reflection '+gazeNum);
         let roomWidth = (cwidth2-((numRooms+1)*mthickness))/numRooms;
+
+        //OPTIONAL SECOND SLIDER TO CHANGE EYE DIRECTION IN EACH SETTING
+        //let lookNum = eyeSlider.value(); 
+        //valueDisplayer2.html('looking at reflection '+lookNum);
+
         let lookNum = numRooms-1;
 
         //"rooms"
@@ -91,40 +93,40 @@ var st4 = function( p )
         {
             var refLookX = (lookNum+1)*((roomWidth+mthickness)+mthickness)-objX;
         }
-        
+
+        //find linear equation for line of site
         var lineSlope = (eyeY-objY)/(eyeX-refLookX);
         var lineIntercept = eyeY-lineSlope*eyeX;
-        
-        //perception ray
-        p.stroke(darkred);
-        p.line(eyeX, eyeY, refLookX, objY);
 
-        //angle arcs
+        //angle arc size
         let arcRadius = 50;
 
         //rays per room
-        for (let i = 0; i < numRooms; i += 1) 
+        for (let i = 0; i < lookNum+1; i += 1) 
         {
             //colors
             if (i%2==0){var c = darkred;}
             else {var c=lightyellow;}
 
+             // for first ray, starting point is eyeball
             if (i ==0)
             {
                 var xstart = xstart2 = eyeX;
                 var ystart = eyeY;
             }
-            else
+            else //otherwise, starting point is last incidence point
             {
                 var xstart = mthickness+(i)*(roomWidth+mthickness);
                 var ystart = lineSlope*xstart+lineIntercept;
+
+                //include in-room starting points to show reflection between 2 mirrors
                 if (i%2==0)
                 {
                     var xstart2 = mthickness;
                 }
                 else 
                 {
-                    var xstart2 = (roomWidth+mthickness);
+                    var xstart2 = (roomWidth+2*mthickness);
                 }
             }
 
@@ -133,7 +135,6 @@ var st4 = function( p )
                 var xend = refLookX;
                 var yend = objY;
                 var xend2 = objX;
-                var multTheta = 1
             }
             else
             {
@@ -144,7 +145,7 @@ var st4 = function( p )
                 var yend = lineSlope*xend+lineIntercept;
                 if (i%2==0)
                 {
-                    var xend2 = (roomWidth+mthickness);
+                    var xend2 = (roomWidth+2*mthickness);
                     var theta = p.abs(p.atan((xend2-xstart2)/(yend-ystart)));//angle of incidence and reflection
                     p.arc(xend2, yend, arcRadius, arcRadius, (3*p.PI/2-theta),(3*p.PI/2));//get angle 
                     p.arc(xend2, yend, arcRadius, arcRadius,p.PI/2, p.PI/2+theta);//get angle 
@@ -165,6 +166,10 @@ var st4 = function( p )
             p.line(xstart, ystart, xend, yend);
             p.line(xstart2, ystart, xend2, yend);
         }
+
+        //UNCOMMENT FOR SOLID LINE SHOWING LINE OF VISION
+        //p.stroke(darkred);
+        //p.line(eyeX, eyeY, refLookX+mthickness, objY);
 
         //binning it all into rooms
         for (let i = 0; i < numRooms; i += 1) 
@@ -188,11 +193,6 @@ var st4 = function( p )
         //eye params
         let eStartX = roomNum*(roomWidth+mthickness)+mthickness;
         let eXref = roomWidth-eX;
-
-        //similar triangles to find point of incidence (h_1*w_tot)/(h_1+h_2) = w_1 
-        //let incremX = lookX/lookRoom;
-        //let incremY = oY/lookRoom;
-        //let incidenceY = objY+(incidenceX-objX)*(eyeY-objY)/(2*(incidenceX+mthickness)-objX-eyeX); 
 
         if(roomNum%2==0)
         {
