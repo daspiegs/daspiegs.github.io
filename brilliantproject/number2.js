@@ -59,6 +59,7 @@ var st4 = function( p )
         let lightblue = p.color(101, 158, 243); 
         let lightyellow = p.color(255, 210, 110); 
         let darkred = p.color(160, 32, 15);
+        let lightred = p.color(240, 119, 103);
 
         //setup
         p.background(lightblue);
@@ -98,6 +99,9 @@ var st4 = function( p )
         p.stroke(darkred);
         p.line(eyeX, eyeY, refLookX, objY);
 
+        //angle arcs
+        let arcRadius = 50;
+
         //rays per room
         for (let i = 0; i < numRooms; i += 1) 
         {
@@ -129,19 +133,32 @@ var st4 = function( p )
                 var xend = refLookX;
                 var yend = objY;
                 var xend2 = objX;
+                var multTheta = 1
             }
             else
             {
+                p.fill(lightred);
+                p.noStroke();
+
                 var xend = mthickness+(i+1)*(roomWidth+mthickness);
                 var yend = lineSlope*xend+lineIntercept;
                 if (i%2==0)
                 {
                     var xend2 = (roomWidth+mthickness);
+                    var theta = p.abs(p.atan((xend2-xstart2)/(yend-ystart)));//angle of incidence and reflection
+                    p.arc(xend2, yend, arcRadius, arcRadius, (3*p.PI/2-theta),(3*p.PI/2));//get angle 
+                    p.arc(xend2, yend, arcRadius, arcRadius,p.PI/2, p.PI/2+theta);//get angle 
                 }
                 else 
                 {
                     var xend2 = mthickness;
+                    var theta = p.abs(p.atan((xend2-xstart2)/(yend-ystart)));//angle of incidence and reflection
+                    p.arc(xend2, yend, arcRadius, arcRadius, p.PI/2-theta,p.PI/2);//get angle 
+                    p.arc(xend2, yend, arcRadius, arcRadius, (3*p.PI/2),(3*p.PI/2+theta));//get angle 
                 }
+                
+                //UNCOMMENT TO SEE ANGLE ARCS FOR LOV RAYS
+                //p.arc(xend, yend, arcRadius, arcRadius, p.PI/2, p.PI/2+theta);//get angle 
             }
             p.stroke(c);
             p.strokeWeight(3); 
@@ -162,7 +179,6 @@ var st4 = function( p )
         let yellow = p.color(238, 167, 31);
         let green = p.color(23, 158, 126);
         let red = p.color(225, 82, 63);
-        let lightred = p.color(240, 119, 103);
 
         //object params
         let startX = roomNum*(roomWidth+mthickness)+mthickness;
