@@ -58,7 +58,7 @@ var st4 = function( p )
         //colors
         let lightblue = p.color(101, 158, 243); 
         let lightyellow = p.color(255, 210, 110); 
-        //let darkred = color(160, 32, 15);
+        let darkred = p.color(160, 32, 15);
 
         //setup
         p.background(lightblue);
@@ -90,9 +90,64 @@ var st4 = function( p )
         {
             var refLookX = (lookNum+1)*((roomWidth+mthickness)+mthickness)-objX;
         }
-        p.stroke(lightyellow);
-        p.strokeWeight(2); 
+        
+        var lineSlope = (eyeY-objY)/(eyeX-refLookX);
+        var lineIntercept = eyeY-lineSlope*eyeX;
+        
+        //perception ray
+        p.stroke(darkred);
         p.line(eyeX, eyeY, refLookX, objY);
+
+        //rays per room
+        for (let i = 0; i < numRooms; i += 1) 
+        {
+            //colors
+            if (i%2==0){var c = darkred;}
+            else {var c=lightyellow;}
+
+            if (i ==0)
+            {
+                var xstart = xstart2 = eyeX;
+                var ystart = eyeY;
+            }
+            else
+            {
+                var xstart = mthickness+(i)*(roomWidth+mthickness);
+                var ystart = lineSlope*xstart+lineIntercept;
+                if (i%2==0)
+                {
+                    var xstart2 = mthickness;
+                }
+                else 
+                {
+                    var xstart2 = (roomWidth+mthickness);
+                }
+            }
+
+            if (i==numRooms-1)
+            {
+                var xend = refLookX;
+                var yend = objY;
+                var xend2 = objX;
+            }
+            else
+            {
+                var xend = mthickness+(i+1)*(roomWidth+mthickness);
+                var yend = lineSlope*xend+lineIntercept;
+                if (i%2==0)
+                {
+                    var xend2 = (roomWidth+mthickness);
+                }
+                else 
+                {
+                    var xend2 = mthickness;
+                }
+            }
+            p.stroke(c);
+            p.strokeWeight(3); 
+            p.line(xstart, ystart, xend, yend);
+            p.line(xstart2, ystart, xend2, yend);
+        }
 
         //binning it all into rooms
         for (let i = 0; i < numRooms; i += 1) 
