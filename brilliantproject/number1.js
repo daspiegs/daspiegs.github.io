@@ -132,13 +132,13 @@ var st3 = function( p )
 
     p.mouseDragged=function()
     {
-        if(shapeMove && p.mouseY<(mborder-radius))
+        if(shapeMove && p.mouseY<(mborder-radius/2))
         {
             shapeX = p.mouseX;
             shapeY = p.mouseY;
         }
 
-        if(objMove && mouseY<(mborder-radiusObj))
+        if(objMove && p.mouseY<(mborder-radiusObj/2))
         {
             objX = p.mouseX;
             objY = p.mouseY;

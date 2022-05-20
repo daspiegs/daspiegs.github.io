@@ -9,21 +9,21 @@ var st4 = function( p )
     const maxRooms = 6;
     const mthickness = 3;
     let slider; //slider
-    let eyeSlider; //slider
+    //let eyeSlider; //slider
     let valueDisplayer;
-    let valueDisplayer2;
+    //let valueDisplayer2;
 
     //object 
     let objX;
     let objY;
     const radiusObj = 40;
-    //let objMove=false;
+    let objMove=false;
 
     //eye 
     let eyeX;
     let eyeY;     
     const radius = 50;
-    //let eyeMove=false;
+    let eyeMove=false;
 
     p.setup = function() 
     {
@@ -38,11 +38,11 @@ var st4 = function( p )
         valueDisplayer = p.createP()
         valueDisplayer.parent("sketchHolderNum2");
 
-        eyeSlider = p.createSlider(0, maxRooms-1, maxRooms-2);
-        eyeSlider.parent("sketchHolderNum2");
-        eyeSlider.style('width', '800px');
-        valueDisplayer2 = p.createP()
-        valueDisplayer2.parent("sketchHolderNum2");
+        // eyeSlider = p.createSlider(0, maxRooms-1, maxRooms-2);
+        // eyeSlider.parent("sketchHolderNum2");
+        // eyeSlider.style('width', '800px');
+        // valueDisplayer2 = p.createP()
+        // valueDisplayer2.parent("sketchHolderNum2");
 
         //obj start
         objX = (cwidth2/(maxRooms-2))/2;
@@ -56,58 +56,72 @@ var st4 = function( p )
     p.draw = function() 
     {
         //colors
-        let lightyellow = p.color(255, 210, 110); 
         let lightblue = p.color(101, 158, 243); 
-        let yellow = p.color(238, 167, 31);
-        let green = p.color(23, 158, 126);
-        let red = p.color(225, 82, 63);
+        let lightyellow = p.color(255, 210, 110); 
         //let darkred = color(160, 32, 15);
-        let darkblue = p.color(11,65,157);
 
         //setup
         p.background(lightblue);
         p.noStroke();
 
         //rooms
-        let numRooms = slider.value();
+        var numRooms = slider.value();
         let refRooms = numRooms-1; 
-        let gazeNum = eyeSlider.value(); 
+        //let gazeNum = eyeSlider.value(); 
         valueDisplayer.html('number of room reflections '+refRooms);
-        valueDisplayer2.html('looking at reflection '+gazeNum);
+        //valueDisplayer2.html('looking at reflection '+gazeNum);
         let roomWidth = (cwidth2-((numRooms+1)*mthickness))/numRooms;
+        let lookNum = numRooms-1;
 
-        // //object 
-        // //top border
-        // ellipse(objX, objY, 1.1*radiusObj, 1.1*radiusObj, PI/2, 1.5*PI);
-        // //red half 
-        // fill(red);
-        // arc(objX, objY, radiusObj, radiusObj, PI/2, 1.5*PI);   
-        // //yellow half
-        // fill(yellow);
-        // arc(objX, objY, radiusObj, radiusObj, 1.5*PI, PI/2);
-
-        //binning it all into rooms
+        //"rooms"
         for (let i = 0; i < numRooms; i += 1) 
         {
             let locscaleX = i*(roomWidth+mthickness)+mthickness;
             p.fill(255-(20*i));
             p.rect(locscaleX, 0, roomWidth, cheight2);
-            drawReflection(objX,objY, eyeX, eyeY,i, roomWidth, red, yellow, green);
         }
 
+        //line of sight
+        if(lookNum%2==0)
+        {
+            var refLookX = (lookNum)*((roomWidth+mthickness)+mthickness)+objX;
+        }
+        else
+        {
+            var refLookX = (lookNum+1)*((roomWidth+mthickness)+mthickness)-objX;
+        }
+        p.stroke(lightyellow);
+        p.strokeWeight(2); 
+        p.line(eyeX, eyeY, refLookX, objY);
+
+        //binning it all into rooms
+        for (let i = 0; i < numRooms; i += 1) 
+        {
+            drawReflection(objX,objY, eyeX, eyeY,i, roomWidth, lookNum);
+        }
     }
 
-    function drawReflection(oX,oY, eX, eY, roomNum,roomWidth, red, yellow, green) 
+    function drawReflection(oX,oY, eX, eY, roomNum,roomWidth, lookRoom) 
     {
-        //push();
+        p.push();
+        let yellow = p.color(238, 167, 31);
+        let green = p.color(23, 158, 126);
+        let red = p.color(225, 82, 63);
+        let lightred = p.color(240, 119, 103);
 
         //object params
         let startX = roomNum*(roomWidth+mthickness)+mthickness;
         let oXref = roomWidth-oX;
+        let lookX = lookRoom*((roomWidth+mthickness)+mthickness)+oX;
 
         //eye params
         let eStartX = roomNum*(roomWidth+mthickness)+mthickness;
         let eXref = roomWidth-eX;
+
+        //similar triangles to find point of incidence (h_1*w_tot)/(h_1+h_2) = w_1 
+        //let incremX = lookX/lookRoom;
+        //let incremY = oY/lookRoom;
+        //let incidenceY = objY+(incidenceX-objX)*(eyeY-objY)/(2*(incidenceX+mthickness)-objX-eyeX); 
 
         if(roomNum%2==0)
         {
@@ -117,6 +131,7 @@ var st4 = function( p )
             c2=red;
             //eye
             var eRefX = eX+eStartX;
+            var angleSign = 1;
         }
         else
         {
@@ -126,6 +141,7 @@ var st4 = function( p )
             c1=red;
             //eye
             var eRefX = eXref+eStartX;
+            var angleSign = -1;
         }
         //object
         p.noStroke()
@@ -137,12 +153,16 @@ var st4 = function( p )
         //eye
         p.fill(255);
         p.stroke(green);
-        p.ellipse(eRefX, eY, radius, radius);
+        p.strokeWeight(3);
+        p.translate(eRefX, eY);  
+        p.ellipse(0,0, radius, radius);
         //pupil
+        let a = p.atan2(oY-eY,(lookX-eX)*angleSign);//can make variable
+        p.rotate(a);
         p.fill(green);
-        p.ellipse(eRefX+radius / 4, eY, radius / 2, radius / 2);
-        //let a = p.atan2(oY-eY,refX-eXref);//can make variable
-        //pop();
+        p.ellipse(radius / 4, 0, radius / 2, radius / 2);
+        p.pop();
+
     }
 
     p.mousePressed = function ()
@@ -150,15 +170,15 @@ var st4 = function( p )
         let d = p.dist(p.mouseX, p.mouseY, eyeX, eyeY);
         if(d<radius)
         {
-            shapeMove = true;
+            eyeMove = true;
         }
         else
         {
-            shapeMove = false;
+            eyeMove = false;
         }
 
         let d2 = p.dist(p.mouseX, p.mouseY, objX, objY);
-        if(d2<radiusObj)
+        if(d2<radiusObj && d2 != d)
         {
             objMove = true;
         }
@@ -170,44 +190,24 @@ var st4 = function( p )
 
     p.mouseRealeased = function()
     {
-        shapeMove = false;
+        eyeMove = false;
         objMove = false;
     }
 
     p.mouseDragged=function()
     {
-        if(shapeMove && p.mouseY<(mborder-radius))
+        if(eyeMove && p.mouseX<(cwidth2/slider.value()-radius/2) && p.mouseX>radius/2)
         {
-            shapeX = p.mouseX;
-            shapeY = p.mouseY;
+            eyeX = p.mouseX;
+            eyeY = p.mouseY;
         }
 
-        if(objMove && mouseY<(mborder-radiusObj))
+        if(objMove && p.mouseX<(cwidth2/slider.value()-radiusObj/2) && p.mouseX>radiusObj/2)
         {
             objX = p.mouseX;
             objY = p.mouseY;
         }
     }   
-
-    function drawEye(tx, ty, ts, tc, yFollow, xFollow) 
-    {
-        p.push();
-
-        //eyewhites
-        p.fill(255);
-        //stroke(101, 158, 243);
-        p.strokeWeight(3);
-        p.translate(tx, ty);  
-        p.ellipse(0, 0, ts, ts);
-
-        let a = p.atan2(yFollow-ty, xFollow-tx);
-        p.rotate(a);
-
-        //pupil
-        p.fill(tc);
-        p.ellipse(ts / 4, 0, ts / 2, ts / 2);
-        p.pop();
-    }
 }
 
 new p5(st4);
